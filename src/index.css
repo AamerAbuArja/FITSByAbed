@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* لجميع المتصفحات التي تدعم ::-webkit-scrollbar */
+::-webkit-scrollbar {
+    width: 10px; /* عرض الـ scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #0078B8; /* لون المقبض */
+    border-radius: 10px; /* زوايا ناعمة */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #e0e0e0; /* لون الخلفية */
+  }
+  
+
+  @media (min-width: 0px) {
+    html {
+      backdrop-filter: blur(10px);
+    }
+  }
+  
+  
+@keyframes moving-circle {
+  0% { left: 0; }
+  100% { left: 100%; }
+}
+
+.animate-moving-circle {
+  animation: moving-circle 2.5s infinite ease-in-out alternate;
+}
+
+.text-main {
+  color: #1D4ED8; /* مثال على لون مخصص */
+}
+
+.bg-main {
+  background-color: #1D4ED8; /* مثال على لون مخصص */
+}
+/* Keyframe for marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%); /* تقليل السرعة ليتسع الشريط أكثر */
+  }
+}
+
+
+/* Marquee container styling */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee img {
+  margin-right: 20px; /* المسافة بين الصور */
+  height: 100px;
+  object-fit: contain;
+}
