@@ -55,7 +55,10 @@
       ]
     },
     {
-      "route": "/Epicor-ERP"
+      "route": "/Epicor-ERP",
+      "methods": [
+        "get"
+      ]
     }
   ]
 }
