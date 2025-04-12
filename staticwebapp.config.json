@@ -11,6 +11,12 @@
       "methods": [
         "get"
       ]
+    },
+    {
+      "route": "/SuccessStory",
+      "methods": [
+        "get"
+      ]
     }
   ]
 }
