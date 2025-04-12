@@ -29,6 +29,12 @@
       "methods": [
         "get"
       ]
+    },
+    {
+      "route": "/ERPConsultationImplementation",
+      "methods": [
+        "get"
+      ]
     }
   ]
 }
