@@ -1,61 +1,45 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
 import { useTranslation } from 'react-i18next';
 
 const Form = () => {
-  // تحديد حالة البيانات
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
 
   const [loading, setLoading] = useState(false);  // حالة تحميل البيانات
- 
-
-     //هاد الكود بياخد البيانات مع ملف السيرة الداتية و ببعتها ايميل 
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
-
-  // // دالة لإرسال البيانات إلى الـ Backend باستخدام Axios
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();  // منع إعادة تحميل الصفحة عند إرسال النموذج
-  //   setLoading(true);  // تفعيل حالة التحميل
-
-  //   try {
-  //     const response = await axios.post(`${apiUrl}/submit-form`, formData);
-
-  //     if (response.status === 200) {
-       
-  //       setFormData({
-  //         firstName: '',
-  //         lastName: '',
-  //         email: '',
-  //         phone: '',
-  //         message: '',
-  //       });
-  //     }
-
-  //     toast.success("The request has been sent successfully.");
-      
-  //   } catch (error) {
-    
-  //     toast.error(error.response.data.message);
-  //   } finally {
-  //     setLoading(false);  // إيقاف حالة التحميل
-  //   }
-  // };
 
   const { t } = useTranslation();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const first = form.querySelector('input[name="firstName"]');
+    const last = form.querySelector('input[name="lastName"]');
+    const email = form.querySelector('input[name="email"]');
+    const phone = form.querySelector('input[name="phone"]');
+    const message = form.querySelector('textarea[name="message"]');
+    const payload = {
+      type: "Contact",
+      first,
+      last,
+      email,
+      phone,
+      message
+    };
+
+    try {
+      const response = await fetch('/api/EmailsForFITS', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+      console.log('Email Sent:', data);
+    } catch (err) {
+      console.error('Error:', err);
+    }
+  };
+
 
   return (
     <div className="my-16 px-6">
@@ -111,16 +95,15 @@ const Form = () => {
             className="border border-gray-300 p-4 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0078B8] transition-all duration-300 h-40"
             required
           />
-        
+
           <button
             type="submit"
-            // onClick={handleSubmit}
+            onClick={handleSubmit}
             disabled={loading}
             className="w-full bg-[#0078B8] text-white py-3 rounded-lg hover:bg-[#005f8f] transition ease-in-out duration-300"
           >
-          {loading ? t('Sending') : t('Submit')}
+            {loading ? t('Sending') : t('Submit')}
           </button>
-   
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
 import { useTranslation } from 'react-i18next';
 
 
@@ -17,7 +16,7 @@ const CareerPage = () => {
     message: '',
   });
 
-   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,61 +26,57 @@ const CareerPage = () => {
     }));
   };
 
-    //هاد الكود بياخد البيانات مع ملف السيرة الداتية و ببعتها ايميل 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-//   const handleFileChange = (e) => {
-//     setFormData((prevState) => ({
-//       ...prevState,
-//       file: e.target.files[0],
-//     }));
-//   };
+    const form = event.target;
+    const first = form.querySelector('input[name="firstName"]');
+    const last = form.querySelector('input[name="lastName"]');
+    const email = form.querySelector('input[name="email"]');
+    const role = form.querySelector('input[name="Position"]');
+    const phone = form.querySelector('input[name="phone"]');
+    const message = form.querySelector('textarea[name="message"]');
+    const fileInput = form.querySelector('input[type="file"]');
+    const file = fileInput.files[0];
 
-//   const handleSubmit = async (e) => {
-    
-//     setLoading(true);
+    const reader = new FileReader();
 
-//     try {
-//       const formDataToSend = new FormData();
-//       formDataToSend.append('firstName', formData.firstName);
-//       formDataToSend.append('lastName', formData.lastName);
-//       formDataToSend.append('email', formData.email);
-//       formDataToSend.append('phone', formData.phone);
-//       formDataToSend.append('message', formData.message);
-//       if (formData.file) {
-//         formDataToSend.append('file', formData.file);
-//       }
+    reader.onloadend = async () => {
+      const base64 = reader.result.split(',')[1]; // remove 'data:*/*;base64,' prefix
 
+      const payload = {
+        type: "Career",
+        first,
+        last,
+        email,
+        role,
+        phone,
+        message,
+        ContentBytes: base64,
+        ContentType: file.type,
+        Name: file.name
+      };
 
-//       console.log(formData.firstName);
-      
+      try {
+        const response = await fetch('/api/EmailsForFITS', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        console.log('Email Sent:', data);
+      } catch (err) {
+        console.error('Error:', err);
+      }
+    };
 
-//       const response = await axios.post(`${apiUrl}/submit-Resume`, formDataToSend, {
-//         headers: { 'Content-Type': 'multipart/form-data' },
-//       });
+    if (file) {
+      reader.readAsDataURL(file); // triggers onloadend
+    } else {
+      alert("Please select a file.");
+    }
+  };
 
-//       console.log("hello");
-      
-
-//       if (response.status === 200) {
-//         setFormData({
-//           firstName: '',
-//           lastName: '',
-//           email: '',
-//           phone: '',
-//           file: null,
-//           message: '',
-//         });
-//         toast.success("Your application has been submitted successfully.");
-//       }
-//     } catch (error) {
-//       toast.error(error.response?.data?.message || "An error occurred. Please try again.");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-
-  
   const { t } = useTranslation();
 
   return (
@@ -129,7 +124,7 @@ const CareerPage = () => {
             placeholder={t('Phone')}
             className="border border-gray-300 p-4 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0078B8] transition-all duration-300"
           />
-           <input
+          <input
             type="Position"
             name="Position"
             // value={formData.phone}
@@ -137,30 +132,30 @@ const CareerPage = () => {
             placeholder="Position"
             className="border border-gray-300 p-4 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0078B8] transition-all duration-300"
           />
-     <div className="flex items-center space-x-2">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6 text-gray-500"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M12 4v16m8-8H4"
-    />
-  </svg>
-  <label htmlFor="file" className="text-gray-700 font-medium">Upload your CV </label>
-</div>
-<input
-  type="file"
-  name="file"
-  id="file"
-  className="border border-gray-300 p-4 w-full rounded-lg bg-gray-100 focus:outline-none transition-all duration-300"
-  required
-/>
+          <div className="flex items-center space-x-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            <label htmlFor="file" className="text-gray-700 font-medium">Upload your CV </label>
+          </div>
+          <input
+            type="file"
+            name="file"
+            id="file"
+            className="border border-gray-300 p-4 w-full rounded-lg bg-gray-100 focus:outline-none transition-all duration-300"
+            required
+          />
 
           <textarea
             name="message"
@@ -171,11 +166,11 @@ const CareerPage = () => {
           />
           <button
             type="submit"
-            // onClick={handleSubmit}
+            onClick={handleSubmit}
             disabled={loading}
             className="w-full bg-[#0078B8] text-white py-3 rounded-lg hover:bg-[#005f8f] transition ease-in-out duration-300"
           >
-           {loading ? t('Sending') : t('Submit')}
+            {loading ? t('Sending') : t('Submit')}
           </button>
         </div>
       </div>

@@ -1,13 +1,35 @@
 const { app } = require('@azure/functions');
+const axios = require('axios');
 
 app.http('EmailsForFITS', {
-    methods: ['GET', 'POST'],
+    methods: ['POST'],
     authLevel: 'anonymous',
     handler: async (request, context) => {
-        context.log(`Http function processed request for url "${request.url}"`);
+        context.log(`Proxying request to Logic App...`);
 
-        const name = request.query.get('name') || await request.text() || 'world';
+        const logicAppUrl = process.env.LOGIC_APP_EMAILS_FOR_FITS_URL;
 
-        return { body: `Hello, ${name}!` };
+        try {
+            const payload = await request.json();
+
+            const logicAppResponse = await axios.post(logicAppUrl, payload);
+
+            return {
+                status: 200,
+                jsonBody: {
+                    message: 'Email sent successfully.',
+                    result: logicAppResponse.data
+                }
+            };
+        } catch (err) {
+            context.log.error('Error:', err.message);
+            return {
+                status: 500,
+                jsonBody: {
+                    error: 'Failed to send email.',
+                    details: err.message
+                }
+            };
+        }
     }
 });

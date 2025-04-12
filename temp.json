@@ -1,0 +1,17 @@
+{
+  "type": "Career",
+  "first": "first",
+  "last": "last",
+  "email": "email",
+  "role": "position",
+  "phone": "phone",
+  "message": "message",
+  "attachments": [
+    {
+      "ContentBytes": "base64-encoded-content",
+      "ContentType": "application/pdf",
+      "Name": "myfile.pdf",
+      "ContentId": "optional-id"
+    }
+  ]
+}
