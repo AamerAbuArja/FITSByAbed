@@ -36,12 +36,13 @@ const CareerPage = () => {
     const role = form.querySelector('input[name="Position"]');
     const phone = form.querySelector('input[name="phone"]');
     const message = form.querySelector('textarea[name="message"]');
-    const fileInput = form.querySelector('input[type="file"]');
-    console.log(fileInput);
-    console.log(fileInput.files[0]);
+    // const fileInput = form.querySelector('input[type="file"]');
+    // console.log(fileInput);
+    // console.log(fileInput.files[0]);
+    const fileRef = useRef();
     // const concretefile = fileInput ? fileInput.files[0] : null;
-    const file = fileInput.files[0]; //concretefile;
-
+    // const file = fileInput.files[0]; //concretefile;
+    const file = fileRef.current?.files?.[0];
     const reader = new FileReader();
 
     reader.onloadend = async () => {
@@ -156,6 +157,7 @@ const CareerPage = () => {
             type="file"
             name="file"
             id="file"
+            ref={fileRef} 
             className="border border-gray-300 p-4 w-full rounded-lg bg-gray-100 focus:outline-none transition-all duration-300"
             required
           />
