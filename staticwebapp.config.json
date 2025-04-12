@@ -35,6 +35,12 @@
       "methods": [
         "get"
       ]
+    },
+    {
+      "route": "/ERPPharmaIndustries",
+      "methods": [
+        "get"
+      ]
     }
   ]
 }
