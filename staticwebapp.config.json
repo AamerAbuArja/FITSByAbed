@@ -41,6 +41,12 @@
       "methods": [
         "get"
       ]
+    },
+    {
+      "route": "/D365BusinessCentral",
+      "methods": [
+        "get"
+      ]
     }
   ]
 }
