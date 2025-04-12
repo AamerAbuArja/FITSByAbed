@@ -63,7 +63,7 @@ const CareerPage = () => {
       };
 
       try {
-        const response = await fetch('/api/src/functions/EmailsForFITS', {
+        const response = await fetch('/api/EmailsForFITS', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
