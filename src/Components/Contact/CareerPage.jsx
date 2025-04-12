@@ -37,7 +37,8 @@ const CareerPage = () => {
     const phone = form.querySelector('input[name="phone"]');
     const message = form.querySelector('textarea[name="message"]');
     const fileInput = form.querySelector('input[type="file"]');
-    const file = fileInput.files[0];
+    const concretefile = fileInput ? fileInput.files[0] : null;
+    const file = concretefile;
 
     const reader = new FileReader();
 
