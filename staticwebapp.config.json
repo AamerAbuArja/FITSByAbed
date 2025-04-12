@@ -5,6 +5,12 @@
       "methods": [
         "get"
       ]
+    },
+    {
+      "route": "/About",
+      "methods": [
+        "get"
+      ]
     }
   ]
 }
