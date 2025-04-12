@@ -23,6 +23,12 @@
       "methods": [
         "get"
       ]
+    },
+    {
+      "route": "/ERPDevelopment",
+      "methods": [
+        "get"
+      ]
     }
   ]
 }
