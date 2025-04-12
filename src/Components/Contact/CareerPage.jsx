@@ -17,6 +17,8 @@ const CareerPage = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  
+  const fileRef = useRef();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -39,7 +41,6 @@ const CareerPage = () => {
     // const fileInput = form.querySelector('input[type="file"]');
     // console.log(fileInput);
     // console.log(fileInput.files[0]);
-    const fileRef = useRef();
     // const concretefile = fileInput ? fileInput.files[0] : null;
     // const file = fileInput.files[0]; //concretefile;
     const file = fileRef.current?.files?.[0];
