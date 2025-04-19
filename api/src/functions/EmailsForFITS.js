@@ -1,10 +1,6 @@
-const { app } = require('@azure/functions');
-const axios = require('axios');
 
-app.http('EmailsForFITS', {
-    methods: ['POST'],
-    authLevel: 'anonymous',
-    handler: async (request, context) => {
+const axios = require('axios');
+export default async function (context, req) {
         context.log(`Proxying request to Logic App...`);
 
         const logicAppUrl = process.env.LOGIC_APP_EMAILS_FOR_FITS_URL;
@@ -32,4 +28,8 @@ app.http('EmailsForFITS', {
             };
         }
     }
-});
+
+    export const config = {
+        route: "EmailsForFITS",
+        method: "POST"
+      };
