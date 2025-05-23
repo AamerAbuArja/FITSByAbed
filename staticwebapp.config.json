@@ -8,6 +8,10 @@
       "route": "/CareerPage",
       "methods": [
         "get"
+      ],
+      "statusCode": 301,
+      "allowedRoles": [
+        "anonymous"
       ]
     },
     {
